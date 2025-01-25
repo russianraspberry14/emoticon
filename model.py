@@ -81,5 +81,10 @@ Crema_df = pd.DataFrame(
         "Intensity": crema_intensity
     }
 )
-Crema_df = Crema_df.drop(Crema_df[Crema_df['Intensity'] < 0].index, inplace=False)
-Crema_df = Crema_df.drop(Crema_df[Crema_df['Emotions'] == "Unknown"].index, inplace=False)
+
+audio_df = pd.concat([Ravdess_df, Crema_df], axis = 0)
+audio_df = audio_df.drop(audio_df[audio_df['Intensity'] < 0].index, inplace=False)
+audio_df = audio_df.drop(audio_df[audio_df['Emotions'] == "Unknown"].index, inplace=False)
+audio_df = audio_df.drop_duplicates()
+audio_df.set_index('Path', inplace=True)
+audio_df.to_csv("Audio Dataset.csv", index=False)
