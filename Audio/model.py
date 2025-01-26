@@ -115,6 +115,7 @@ Tess_df = pd.DataFrame(
 
 audio_df = pd.concat([Ravdess_df, Savee_df, Tess_df], axis = 0)
 audio_df = audio_df.drop(audio_df[audio_df['Emotions'] == "Unknown"].index, inplace=False)
+audio_df = audio_df.drop(audio_df[audio_df['Emotions'] == "calm"].index, inplace=False)
 audio_df = audio_df.drop_duplicates()
 audio_df.to_csv("Audio Dataset.csv", index=False)
 
