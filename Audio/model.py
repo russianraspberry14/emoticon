@@ -13,28 +13,32 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-Ravdess = "Audio_Speech_Actors_01-24/"
+Ravdess = "RAVDESS/"
+Savee = "SAVEE/"
+Tess = "TESS/"
 
 ravdess_emotions = []
 ravdess_paths = []
-ravdess_directories = [d for d in os.listdir(Ravdess) if os.path.isdir(os.path.join(Ravdess, d))]
+ravdess_directories = [
+    d for d in os.listdir(Ravdess) if os.path.isdir(os.path.join(Ravdess, d))
+]
 
-for ravdess_directory in ravdess_directories:
-    actor = os.listdir(Ravdess + ravdess_directory)
+for directories in ravdess_directories:
+    actor = os.listdir(Ravdess + directories)
     for audio in actor:
         part = audio.split(".")[0]
         part = part.split("-")
         ravdess_emotions.append(int(part[2]))
-        ravdess_paths.append(Ravdess + ravdess_directory + "/" + audio)
+        ravdess_paths.append(Ravdess + directories + "/" + audio)
 
-ravdess_df = pd.DataFrame(
+Ravdess_df = pd.DataFrame(
     {
         "Path": ravdess_paths,
         "Emotions": ravdess_emotions,
     }
 )
 
-EMOTIONS = {
+RAVDESS_EMOTIONS = {
     1: "neutral",
     2: "calm",
     3: "happy",
@@ -45,12 +49,75 @@ EMOTIONS = {
     8: "surprise",
 }
 
-ravdess_df["Emotions"] = ravdess_df["Emotions"].map(EMOTIONS)
-ravdess_df = ravdess_df.drop(
-    ravdess_df[ravdess_df["Emotions"] == "Unknown"].index, inplace=False
-)
-audio_df = ravdess_df.drop_duplicates()
+Ravdess_df["Emotions"] = Ravdess_df["Emotions"].map(RAVDESS_EMOTIONS)
 
+savee_emotions = []
+savee_paths = []
+savee_files = [d for d in os.listdir(Savee) if os.path.isfile(os.path.join(Savee, d))]
+
+for savee_file in savee_files:
+    savee_paths.append(Savee + savee_file)
+    part = savee_file.split("_")[1]
+    savee_emotion = part[:-6]
+    if savee_emotion=='a':
+        savee_emotions.append('angry')
+    elif savee_emotion=='d':
+        savee_emotions.append('disgust')
+    elif savee_emotion=='f':
+        savee_emotions.append('fear')
+    elif savee_emotion=='h':
+        savee_emotions.append('happy')
+    elif savee_emotion=='n':
+        savee_emotions.append('neutral')
+    elif savee_emotion=='sa':
+        savee_emotions.append('sad')
+    elif savee_emotion=='su':
+        savee_emotions.append('surprise')
+    else:
+        savee_emotions.append('Unknown')
+Savee_df = pd.DataFrame(
+    {
+        "Path": savee_paths,
+        "Emotions": savee_emotions,
+    }
+)
+
+tess_emotions = []
+tess_paths = []
+tess_files = [d for d in os.listdir(Tess) if os.path.isfile(os.path.join(Tess, d))]
+
+for tess_file in tess_files:
+    tess_paths.append(Tess + tess_file)
+    part = tess_file.split("_")[2]
+    tess_emotion = part[:-4]
+    if tess_emotion=='angry':
+        tess_emotions.append('angry')
+    elif tess_emotion=='disgust':
+        tess_emotions.append('disgust')
+    elif tess_emotion=='fear':
+        tess_emotions.append('fear')
+    elif tess_emotion=='happy':
+        tess_emotions.append('happy')
+    elif tess_emotion=='neutral':
+        tess_emotions.append('neutral')
+    elif tess_emotion=='sad':
+        tess_emotions.append('sad')
+    elif tess_emotion=='ps':
+        tess_emotions.append('surprise')
+    else:
+        tess_emotions.append('Unknown')
+Tess_df = pd.DataFrame(
+    {
+        "Path": tess_paths,
+        "Emotions": tess_emotions,
+    }
+)
+
+audio_df = pd.concat([Ravdess_df, Savee_df, Tess_df], axis = 0)
+audio_df = audio_df.drop(audio_df[audio_df['Emotions'] == "Unknown"].index, inplace=False)
+audio_df = audio_df.drop(audio_df[audio_df['Emotions'] == "calm"].index, inplace=False)
+audio_df = audio_df.drop_duplicates()
+audio_df.to_csv("Audio Dataset.csv", index=False)
 
 def load_audio(path, duration=2.5, offset=0.6):
     try:
