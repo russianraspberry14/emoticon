@@ -13,27 +13,24 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-Audio = "Audio_Speech_Actors_01-24/"
+Ravdess = "Audio_Speech_Actors_01-24/"
 
-emotions = []
-paths = []
-intensity = []
-directories = [d for d in os.listdir(Audio) if os.path.isdir(os.path.join(Audio, d))]
+ravdess_emotions = []
+ravdess_paths = []
+ravdess_directories = [d for d in os.listdir(Ravdess) if os.path.isdir(os.path.join(Ravdess, d))]
 
-for directory in directories:
-    actor = os.listdir(Audio + directory)
+for ravdess_directory in ravdess_directories:
+    actor = os.listdir(Ravdess + ravdess_directory)
     for audio in actor:
         part = audio.split(".")[0]
         part = part.split("-")
-        emotions.append(int(part[2]))
-        intensity.append(int(part[3]))
-        paths.append(Audio + directory + "/" + audio)
+        ravdess_emotions.append(int(part[2]))
+        ravdess_paths.append(Ravdess + ravdess_directory + "/" + audio)
 
-audio_df = pd.DataFrame(
+ravdess_df = pd.DataFrame(
     {
-        "Path": paths,
-        "Emotions": emotions,
-        "Intensity": intensity,
+        "Path": ravdess_paths,
+        "Emotions": ravdess_emotions,
     }
 )
 
@@ -48,15 +45,11 @@ EMOTIONS = {
     8: "surprise",
 }
 
-INTENSITY = {1: 0, 2: 2}
-
-audio_df["Emotions"] = audio_df["Emotions"].map(EMOTIONS)
-audio_df["Intensity"] = audio_df["Intensity"].map(INTENSITY)
-audio_df = audio_df.drop(audio_df[audio_df["Intensity"] < 0].index, inplace=False)
-audio_df = audio_df.drop(
-    audio_df[audio_df["Emotions"] == "Unknown"].index, inplace=False
+ravdess_df["Emotions"] = ravdess_df["Emotions"].map(EMOTIONS)
+ravdess_df = ravdess_df.drop(
+    ravdess_df[ravdess_df["Emotions"] == "Unknown"].index, inplace=False
 )
-audio_df = audio_df.drop_duplicates()
+audio_df = ravdess_df.drop_duplicates()
 
 
 def load_audio(path, duration=2.5, offset=0.6):
