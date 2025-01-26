@@ -266,3 +266,48 @@ section {
   color: #333;
   font-weight: bold;
 }
+.report-card {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.report-card button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+.speaker-card button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin: 10px;
+
+}
+.recording-controls {
+  display: flex;
+  justify-content: center;
+  margin: 20px 20px;
+}
+.emotion{
+  color: #4caf50;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 10px; 
+}
+.emotion2 {
+  display: block; 
+  text-align: center; 
+  margin: 20px auto; 
+  font-size: 1.2em; 
+}

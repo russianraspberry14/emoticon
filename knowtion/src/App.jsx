@@ -4,6 +4,7 @@ import About from './Components/About';
 import Appointments from './Components/Appointments';
 import PDF from './Components/PDF';
 import Speaker from './Components/Speaker';
+import Simulator from './Components/Simulator'
 import './index.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
                   <Appointments />
                   <PDF />
                   <Speaker />
+                  <Simulator />
                 </div>
             </div>
         </div>
