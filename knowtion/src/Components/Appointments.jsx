@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AppointmentReminder from './AppointmentReminder';
+import PDF from "./PDF";
 
 const Appointments = () => {
     const [appointments, setAppointments] = useState([
@@ -33,12 +34,19 @@ const Appointments = () => {
         setAppointments(updatedAppointments);
     };
 
+    // Calculate last and next appointments
+    const today = new Date();
+    const sortedAppointments = appointments.sort((a, b) => new Date(a.date) - new Date(b.date));
+    const lastAppointment = sortedAppointments
+        .filter((appointment) => new Date(appointment.date) < today)
+        .slice(-1)[0];
+    const nextAppointment = sortedAppointments.find((appointment) => new Date(appointment.date) > today);
+
     return (
         <section>
             <h2>Appointments</h2>
             <AppointmentReminder appointments={appointments} />
-
-            {/* Rest of the existing component remains the same */}
+            {/* Appointment Records */}
             <div className="appointments-list">
                 {appointments.map((appointment) => (
                     <div key={appointment.id} className="appointment-card">
@@ -61,7 +69,7 @@ const Appointments = () => {
                 ))}
             </div>
 
-            {/* Add New Appointment form remains the same */}
+            {/* Add New Appointment */}
             <div className="add-appointment">
                 <h3>Create New Appointment</h3>
                 <input
@@ -85,6 +93,12 @@ const Appointments = () => {
                     Add Appointment
                 </button>
             </div>
+
+            {/* PDF Component */}
+            <PDF
+                lastAppointment={lastAppointment}
+                nextAppointment={nextAppointment}
+            />
         </section>
     );
 };
