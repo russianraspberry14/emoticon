@@ -1,22 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import jsPDF from 'jspdf';
 
-const PDF = () => {
+const PDF = ({ emotions }) => {
     const generatePDF = () => {
         const doc = new jsPDF();
 
-        // Add content to the PDF
-        doc.text('Knowtion PDF Example', 10, 10); // (text, x, y)
-        doc.text('This is a dynamically generated PDF!', 10, 20);
-        doc.text('Enjoy your PDF creation journey.', 10, 30);
+        // Title
+        doc.setFontSize(16);
+        doc.text('Emotion Detection Report', 10, 10);
+
+        // Emotion Log
+        doc.setFontSize(12);
+        emotions.forEach((emotion, index) => {
+            doc.text(`Time: ${emotion.timestamp} - Emotion: ${emotion.emotion}`, 10, 20 + (index * 10));
+        });
 
         // Download the PDF
-        doc.save('example.pdf');
+        doc.save('emotion_report.pdf');
     };
 
     return (
         <div className="report-card">
-            <h2>Report Generator</h2>
+            <h2>Emotion Report</h2>
             <button onClick={generatePDF}>Generate PDF</button>
         </div>
     );
