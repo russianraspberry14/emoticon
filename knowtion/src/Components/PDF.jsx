@@ -15,8 +15,8 @@ const PDF = () => {
     };
 
     return (
-        <div className="section">
-            <h2>Section 3: Generate PDF</h2>
+        <div className="report-card">
+            <h2>Report Generator</h2>
             <button onClick={generatePDF}>Generate PDF</button>
         </div>
     );

@@ -42,3 +42,33 @@
 .dropdown:hover .dropdown-content {
     display: block;
 }
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #FAFAFA; /* Navbar background color */
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-end; /* Align the image to the right */
+    align-items: center;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out; /* Smooth hide/show animation */
+}
+.navbar button{
+    background-color: #2da986;
+    border: none;
+    cursor: pointer;
+}
+
+.navbar-image {
+    height: 40px; /* Adjust image height */
+    padding-right: 40px;
+}
+
+.navbar.visible {
+    transform: translateY(0); /* Navbar slides into view */
+}
+
+.navbar.hidden {
+    transform: translateY(-100%); /* Navbar slides out of view */
+}
