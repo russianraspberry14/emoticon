@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import AppointmentReminder from './AppointmentReminder';
 
 const Appointments = () => {
-    // Example appointment records
     const [appointments, setAppointments] = useState([
         { id: 1, doctor: "Dr. John Doe", date: "2025-02-01", email: "john.doe@example.com" },
         { id: 2, doctor: "Dr. Jane Smith", date: "2025-02-15", email: "jane.smith@example.com" },
@@ -11,7 +11,6 @@ const Appointments = () => {
     const [newDate, setNewDate] = useState("");
     const [newEmail, setNewEmail] = useState("");
 
-    // Add a new appointment
     const addAppointment = () => {
         if (!newDoctor || !newDate || !newEmail) {
             alert("Please fill out all fields.");
@@ -29,7 +28,6 @@ const Appointments = () => {
         setNewEmail("");
     };
 
-    // Delete an appointment
     const deleteAppointment = (id) => {
         const updatedAppointments = appointments.filter((appointment) => appointment.id !== id);
         setAppointments(updatedAppointments);
@@ -38,8 +36,9 @@ const Appointments = () => {
     return (
         <section>
             <h2>Appointments</h2>
+            <AppointmentReminder appointments={appointments} />
 
-            {/* Appointment Records */}
+            {/* Rest of the existing component remains the same */}
             <div className="appointments-list">
                 {appointments.map((appointment) => (
                     <div key={appointment.id} className="appointment-card">
@@ -62,7 +61,7 @@ const Appointments = () => {
                 ))}
             </div>
 
-            {/* Add New Appointment */}
+            {/* Add New Appointment form remains the same */}
             <div className="add-appointment">
                 <h3>Create New Appointment</h3>
                 <input

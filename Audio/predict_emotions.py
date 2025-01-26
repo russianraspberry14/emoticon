@@ -1,11 +1,10 @@
-import os
 import joblib
 from features import load_audio, extract_features
 
-def predict_emotion(audio_path, model_path='Models/model.pkl', scaler_path='Models/scaler.pkl'):
+def predict_emotion(audio_path):
 
-    model = joblib.load(model_path)
-    scaler = joblib.load(scaler_path)
+    model = joblib.load('Models/model.pkl')
+    scaler = joblib.load('Models/scaler.pkl')
     data, sr = load_audio(audio_path)
     
     if data is None:
@@ -24,17 +23,6 @@ def predict_emotion(audio_path, model_path='Models/model.pkl', scaler_path='Mode
     
     return emotion
 
-def predict_emotions_in_directory(directory):
-    results = {}
-    for filename in os.listdir(directory):
-        if filename.endswith('.wav'):
-            filepath = os.path.join(directory, filename)
-            emotion = predict_emotion(filepath)
-            if emotion:
-                results[filename] = emotion
-    return results
-
 if __name__ == "__main__":
     test_file = "path/to/your/test/audio.wav"
     predicted_emotion = predict_emotion(test_file)
-    print(f"Predicted Emotion: {predicted_emotion}")
